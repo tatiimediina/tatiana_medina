@@ -23,9 +23,11 @@ $form.addEventListener("submit", async (e) => {
     body: JSON.stringify(entries),
   }).then((response) => {
     if (response.ok) {
-      // ! REDIRIGIR AL USUARIO A LA PÁGINA PRINCIPAL
+      return (window.location.href = "/home");
+      // ! REDIRIGIR AL USUARIO A LA PÁGINA PRINCIPAL X
     } else {
-      // ! MOSTRAR UN MENSAJE DE ERROR AL USUARIO
+      // ! MOSTRAR UN MENSAJE DE ERROR AL USUARIO X
+      return res.status(500).json({ message: "Error inesperado" });
     }
   });
 });

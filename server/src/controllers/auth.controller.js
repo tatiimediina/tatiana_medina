@@ -13,7 +13,11 @@ export const signInCtrl = async (req, res) => {
 
     const token = await createJwt(user.id);
 
-    res.cookie("token", token, { httpOnly: true });
+    req.session.token = token;
+
+    res.cookie("token", token, {
+      httpOnly: true,
+    });
 
     res.status(200).json({ token, user });
   } catch (error) {
@@ -23,6 +27,12 @@ export const signInCtrl = async (req, res) => {
 
 export const signUpCtrl = async (req, res) => {
   try {
+    const { username, email, password } = req.body;
+
+    const user = await createUser({ username, email, password });
+
+    res.json({ user });
+
     // ! Completar la función signUpCtrl
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -32,6 +42,7 @@ export const signUpCtrl = async (req, res) => {
 export const signOutCtrl = (_req, res) => {
   try {
     // ! Completar la función signOutCtrl
+
     res.status(200).json({ message: "Sign out success" });
   } catch (error) {
     res.status(500).json({ message: error.message });
