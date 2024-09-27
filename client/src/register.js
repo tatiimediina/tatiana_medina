@@ -19,6 +19,7 @@ $form.addEventListener("submit", async (e) => {
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: true,
       body: JSON.stringify({
         username: username,
         password: password,
@@ -27,9 +28,11 @@ $form.addEventListener("submit", async (e) => {
         if (response.ok) {
           return (window.location.href = "/sign-in");
         } else {
-          return res.status(500).json({ message: "Error inesperado" });
+          return res.status(401).json({ message: "Error inesperado" });
         }
       }),
     });
-  } catch (error) {}
+  } catch (error) {
+    return res.status(500).json({ message: "Error inesperado" });
+  }
 });

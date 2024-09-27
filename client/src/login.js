@@ -15,19 +15,24 @@ $form.addEventListener("submit", async (e) => {
   const entries = Object.fromEntries(formData.entries());
 
   // Realizar una solicitud POST a la API de inicio de sesión
-  fetch("http://localhost:4321/auth/sign-in", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(entries),
-  }).then((response) => {
-    if (response.ok) {
-      return (window.location.href = "/home");
-      // ! REDIRIGIR AL USUARIO A LA PÁGINA PRINCIPAL X
-    } else {
-      // ! MOSTRAR UN MENSAJE DE ERROR AL USUARIO X
-      return res.status(500).json({ message: "Error inesperado" });
-    }
-  });
+  try {
+    etch("http://localhost:4321/auth/sign-in", {
+      method: "POST",
+      credentials: true,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(entries),
+    }).then((response) => {
+      if (response.ok) {
+        return (window.location.href = "/home");
+        // ! REDIRIGIR AL USUARIO A LA PÁGINA PRINCIPAL X
+      } else {
+        // ! MOSTRAR UN MENSAJE DE ERROR AL USUARIO X
+        return res.status(401).json({ message: "Usuario no encontrado" });
+      }
+    });
+  } catch (error) {
+    return res.status(500).json({ message: "Error inesperado" });
+  }
 });

@@ -183,8 +183,22 @@ export function navbar(session = null) {
       "bg-primary/70 hover:scale-105 duration-200 text-white px-4 py-2 rounded-full";
     logoutButton.textContent = "Logout";
 
-    logoutButton.addEventListener("click", () => {
+    logoutButton.addEventListener("click", async (e) => {
       // ! HACER EL LOGOUT DEL USUARIO Y REDIRIGIR A LA PÁGINA DE LOGIN
+      e.preventDefault();
+
+      try {
+        const response = await fetch("http://localhost:4321/sign-out", {
+          method: "POST",
+          credentials: true,
+        }).then((response) => {
+          if (response.ok) {
+            return (window.location.href = "/");
+          } else {
+            return res.status(500).json({ message: "Error inesperado" });
+          }
+        });
+      } catch (error) {}
     });
 
     menuDiv.appendChild(logoutButton);
