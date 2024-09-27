@@ -33,6 +33,6 @@ $form.addEventListener("submit", async (e) => {
       }),
     });
   } catch (error) {
-    return res.status(500).json({ message: "Error inesperado" });
+    return res.status(500).json({ message: "Error inesperado en el servidor" });
   }
 });
