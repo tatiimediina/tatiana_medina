@@ -2,7 +2,7 @@
 
 import { body } from "express-validator";
 
-export const orderValidations = [
+export const createOrdenValidations = [
   body("coffee")
     .isString()
     .withMessage("El campo coffe es obligatorio")
@@ -13,7 +13,8 @@ export const orderValidations = [
   body("userId")
     .isString()
     .withMessage("El campo debe userId debe ser un string")
-    .notEmpty.withMessage("El campo userId es obligatorio"),
+    .notEmpty()
+    .withMessage("El campo userId es obligatorio"),
   body("id")
     .isString()
     .withMessage("El campo debe ser un string")

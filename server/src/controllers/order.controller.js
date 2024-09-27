@@ -4,7 +4,15 @@ export const createOrderCtrl = (req, res) => {
   const userId = req.user.id;
   const { coffee } = req.body;
 
-  const order = createOrder(coffee, userId);
+  if (
+    coffee !== "Espresso" ||
+    coffee !== "Americano" ||
+    coffee !== "Cappuccino"
+  ) {
+    return res.json({ message: "Datos inválidos" });
+  } else {
+    const order = createOrder(coffee, userId);
+  }
 
   res.status(201).json(order);
 };
