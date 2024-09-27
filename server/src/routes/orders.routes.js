@@ -10,6 +10,6 @@ const ordersRouter = Router();
 ordersRouter.get("/orders", getOrdersCtrl);
 
 // ! FALTAN VALIDACIONES DE DATOS
-ordersRouter.post("/orders/add", createOrderCtrl);
+ordersRouter.post("/orders", createOrderCtrl);
 
 export { ordersRouter };

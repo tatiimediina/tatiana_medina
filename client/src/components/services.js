@@ -119,24 +119,47 @@ export const services = (session) => {
           }
         });
       }
+      try {
+        Swal.fire({
+          title: service.coffee,
+          text: service.description,
+          imageUrl: Img2,
+          imageWidth: 400,
+          imageHeight: 400,
+          imageAlt: service.coffee,
+          confirmButtonText: "Create Order",
+          showCancelButton: true,
+          cancelButtonText: "Cancel",
+        }).then(async (result) => {
+          if (result.isDismissed) return;
 
-      Swal.fire({
-        title: service.coffee,
-        text: service.description,
-        imageUrl: Img2,
-        imageWidth: 400,
-        imageHeight: 400,
-        imageAlt: service.coffee,
-        confirmButtonText: "Create Order",
-        showCancelButton: true,
-        cancelButtonText: "Cancel",
-      }).then(async (result) => {
-        if (result.isDismissed) return;
+          const coffe = service.coffee;
+          const description = service.description;
+          const img = service.img;
 
-        const coffe = service.coffee;
-
-        // ! IMPLEMENTAR LÓGICA PARA CREAR UNA ORDEN
-      });
+          // ! IMPLEMENTAR LÓGICA PARA CREAR UNA ORDEN
+          const response = await fetch("http://localhost:4321/orders", {
+            method: "POST",
+            credentials: true,
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              coffe: coffe,
+              img: img,
+              description: description,
+            }),
+          }).then((response) => {
+            if (response.ok) {
+              return response.json();
+            } else {
+              return null;
+            }
+          });
+        });
+      } catch (error) {
+        return res.status(500).json("Error inesperado");
+      }
     });
   });
 

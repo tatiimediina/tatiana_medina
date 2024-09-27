@@ -16,7 +16,7 @@ $form.addEventListener("submit", async (e) => {
 
   // Realizar una solicitud POST a la API de inicio de sesión
   try {
-    etch("http://localhost:4321/auth/sign-in", {
+    await fetch("http://localhost:4321/auth/sign-in", {
       method: "POST",
       credentials: true,
       headers: {
@@ -26,9 +26,9 @@ $form.addEventListener("submit", async (e) => {
     }).then((response) => {
       if (response.ok) {
         return (window.location.href = "/home");
-        // ! REDIRIGIR AL USUARIO A LA PÁGINA PRINCIPAL X
+        // ! REDIRIGIR AL USUARIO A LA PÁGINA PRINCIPAL
       } else {
-        // ! MOSTRAR UN MENSAJE DE ERROR AL USUARIO X
+        // ! MOSTRAR UN MENSAJE DE ERROR AL USUARIO
         return res.status(401).json({ message: "Usuario no encontrado" });
       }
     });

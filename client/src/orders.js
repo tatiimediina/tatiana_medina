@@ -10,26 +10,34 @@ import { listOfOrders } from "./components/listOfOrders";
 const $root = document.getElementById("root");
 
 // Realizar una solicitud para obtener la sesión del usuario actual
-await fetch("http://localhost:4321/auth/me", {
-  credentials: true,
-  method: "GET",
-})
-  .then((response) => {
-    // Verificar si la respuesta es exitosa
-    if (response.ok) {
-      return response.json(); // Convertir la respuesta a JSON
-    } else {
-      return null; // Devolver null si la respuesta no es exitosa
-    }
-  })
-  .then((session) => {
-    if (session) {
-      // Añadir el componente de la barra de navegación al elemento raíz
-      $root.appendChild(navbar({ user: session }));
-      // Añadir el componente de orders al elemento raíz
-      $root.appendChild(listOfOrders());
-    } else {
-      // Redirigir al usuario a la página de inicio de sesión
-      window.location.href = "/pages/login";
-    }
-  });
+
+export const orders = async (req_, res) => {
+  try {
+    await fetch("http://localhost:4321/auth/me", {
+      credentials: true,
+      method: "GET",
+    })
+      .then((response) => {
+        // Verificar si la respuesta es exitosa
+        if (response.ok) {
+          return response.json(); // Convertir la respuesta a JSON
+        } else {
+          return null; // Devolver null si la respuesta no es exitosa
+        }
+      })
+      .then((session) => {
+        if (session) {
+          // Añadir el componente de la barra de navegación al elemento raíz
+          $root.appendChild(navbar({ user: session }));
+          // Añadir el componente de orders al elemento raíz
+          $root.appendChild(listOfOrders());
+        } else {
+          // Redirigir al usuario a la página de inicio de sesión
+          window.location.href = "/pages/login";
+        }
+      });
+  } catch (error) {
+    return res.status(500).json("Error inesperado");
+  }
+};
+orders();
